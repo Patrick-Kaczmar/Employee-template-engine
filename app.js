@@ -13,30 +13,10 @@ const Choice = require("inquirer/lib/objects/choice");
 const Choices = require("inquirer/lib/objects/choices");
 const { report } = require("process");
 
+// an empty array that will have the employee objects created by the CLI pushed into it
+const employees = [];
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-const employees = []
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+// function that will ask the user if they want to create a new employee
 function start() {
     inquirer.prompt(
         {
@@ -45,18 +25,20 @@ function start() {
             name: "create"
         }
     ).then((response) => {
+        // if the user answers yes then run the create Employee function
         if (response.create) {
             createEmployee()
         }
+        // else take all the input data we have gathered so far, pass it into the render function to get HTML returned, and write it to a new html file in the output folder
         else {
-            // render(employees);
             fs.writeFile(outputPath, render(employees), function (err) {
-                if (err) {throw err;}
-            })
-        }
-    })
+                if (err) {throw err}
+            });
+        };
+    });
 };
 
+// function asking what type of employee object will be created and runs the correct function depending on the answer
 function createEmployee() {
     inquirer.prompt(
         {
@@ -81,6 +63,7 @@ function createEmployee() {
     });
 };
 
+// function that will create a new manager object and push it into the employee array
 function manager() {
     inquirer.prompt([
         {
@@ -104,14 +87,15 @@ function manager() {
             name: "offNumber"
         }
     ]).then((response) => {
-        let managerInput = response.managerName
-        managerInput = new Manager(response.managerName, response.idNumber, response.emailAddress, response.offNumber)
-        employees.push(managerInput)
-        console.log(employees)
+        let managerInput = response.managerName;
+        managerInput = new Manager(response.managerName, response.idNumber, response.emailAddress, response.offNumber);
+        employees.push(managerInput);
+        console.log(employees);
         start();
     });
 };
 
+// function that will create a new engineer object and push it into the employee array
 function engineer() {
     inquirer.prompt([
         {
@@ -135,14 +119,15 @@ function engineer() {
             name: "gitName"
         }
     ]).then((response) => {
-        let engineerInput = response.engineerName
-        engineerInput = new Engineer(response.engineerName, response.idNumber, response.emailAddress, response.gitName)
-        employees.push(engineerInput)
-        console.log(employees)
+        let engineerInput = response.engineerName;
+        engineerInput = new Engineer(response.engineerName, response.idNumber, response.emailAddress, response.gitName);
+        employees.push(engineerInput);
+        console.log(employees);
         start();
     });
 };
 
+// function that will create a new intern object and push it into the employee array
 function intern() {
     inquirer.prompt([
         {
@@ -166,13 +151,13 @@ function intern() {
             name: "schoolName"
         }
     ]).then((response) => {
-        let internInput = response.internName
-        internInput = new Intern(response.internName, response.idNumber, response.emailAddress, response.schoolName)
-        employees.push(internInput)
-        console.log(employees)
+        let internInput = response.internName;
+        internInput = new Intern(response.internName, response.idNumber, response.emailAddress, response.schoolName);
+        employees.push(internInput);
+        console.log(employees);
         start();
     });
 };
 
-
+// calls the function when the app is run with "node app" in the CLI
 start();
