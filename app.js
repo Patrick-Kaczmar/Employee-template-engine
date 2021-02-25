@@ -4,6 +4,7 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const emailValidator = require("email-validator")
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
@@ -72,19 +73,22 @@ function manager() {
             name: "managerName",
         },
         {
-            type: "number",
+            type: "input",
             message: "What is the ID number of this employee?",
-            name: "idNumber"
+            name: "idNumber",
+            validate: (number) => !isNaN(number) ? true : `Please enter a number`
         },
         {
             type: "input",
             message: "What is this employee's email address?",
-            name: "emailAddress"
+            name: "emailAddress",
+            validate: (input) => emailValidator.validate(input) ? true : `Please enter a valid email address`
         },
         {
-            type: "number",
+            type: "input",
             message: "What is their office number?",
-            name: "offNumber"
+            name: "offNumber",
+            validate: (number) => !isNaN(number) ? true : `Please enter a number`
         }
     ]).then((response) => {
         let managerInput = response.managerName;
@@ -104,14 +108,16 @@ function engineer() {
             name: "engineerName",
         },
         {
-            type: "number",
+            type: "input",
             message: "What is the ID number of this employee?",
-            name: "idNumber"
+            name: "idNumber",
+            validate: (number) => !isNaN(number) ? true : `Please enter a number`
         },
         {
             type: "input",
             message: "What is this employee's email address?",
-            name: "emailAddress"
+            name: "emailAddress",
+            validate: (input) => emailValidator.validate(input) ? true : `Please enter a valid email address`
         },
         {
             type: "input",
@@ -136,14 +142,16 @@ function intern() {
             name: "internName",
         },
         {
-            type: "number",
+            type: "input",
             message: "What is the ID number of this employee?",
-            name: "idNumber"
+            name: "idNumber",
+            validate: (number) => !isNaN(number) ? true : `Please enter a number`
         },
         {
             type: "input",
             message: "What is this employee's email address?",
-            name: "emailAddress"
+            name: "emailAddress",
+            validate: (input) => emailValidator.validate(input) ? true : `Please enter a valid email address`
         },
         {
             type: "input",
